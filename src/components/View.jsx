@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Card, Form, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,28 +15,34 @@ function View() {
     const books = useSelector(state=>state.bookSlice)
     const dispatch = useDispatch()
 
+    useEffect(()=>{
+        console.log(books);
+    },[books])
+
   return (
     <>
     <div className="container">
         <div className="row">
-
-            
-            <div className="col my-3">
-                <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src="https://m.media-amazon.com/images/I/61DSwP-o5DL._SY466_.jpg" />
-                    <Card.Body>
-                        <Card.Title>Book name</Card.Title>
-                        <Card.Text className='text-end'>
-                            -Author name
-                        </Card.Text>
-                        <div className='d-flex justify-content-between'>
-                            <Button variant="primary" onClick={handleShow}>Edit</Button>
-                            <Button variant="danger"><i className="fa-solid fa-trash"></i></Button>
-                        </div>
-                    </Card.Body>
-                </Card>
-            </div>
-
+            {
+                books?.length>0?books.map(item=>(
+                    <div className="col my-3">
+                        <Card style={{ width: '18rem' }}>
+                            <Card.Img variant="top" src="https://m.media-amazon.com/images/I/61DSwP-o5DL._SY466_.jpg" />
+                            <Card.Body>
+                                <Card.Title>{item?.name}</Card.Title>
+                                <Card.Text className='text-end'>
+                                    -{item?.author}
+                                </Card.Text>
+                                <div className='d-flex justify-content-between'>
+                                    <Button variant="primary" onClick={handleShow}>Edit</Button>
+                                    <Button variant="danger"><i className="fa-solid fa-trash"></i></Button>
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                ))
+                :<>Empty Books</>
+            }
         </div>
     </div> 
 
