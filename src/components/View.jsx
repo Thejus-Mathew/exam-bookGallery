@@ -27,7 +27,7 @@ function View() {
     },[name,poster,author,id])
 
     useEffect(()=>{
-        console.log(books);
+        // console.log(books);
     },[books])
 
 
@@ -60,7 +60,7 @@ function View() {
         <div className="row">
             {
                 books?.length>0?books.map(item=>(
-                    <div className="col my-3">
+                    <div className="col my-3" key={item?.id}>
                         <Card style={{ width: '18rem' }}>
                             <Card.Img variant="top" src={item?.poster} />
                             <Card.Body>
