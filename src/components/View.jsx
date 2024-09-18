@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Card, Form, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteBook } from '../redux/bookSlice';
+import { addBook, deleteBook } from '../redux/bookSlice';
 
 
 function View() {
@@ -19,12 +19,12 @@ function View() {
     const[name,setName] = useState("")
     const[author,setAuthor] = useState("")
     const[poster,setPoster] = useState("")
-
+    const[id,setId] = useState(0)
     const[book,setBook] = useState({})
 
     useEffect(()=>{
-        setBook({name,poster,author})
-    },[name,poster,author])
+        setBook({name,poster,author,id})
+    },[name,poster,author,id])
 
     useEffect(()=>{
         console.log(books);
@@ -36,7 +36,24 @@ function View() {
         dispatch(deleteBook(item))
     }
 
-    
+    const handleEditStart = (item) =>{
+        setId(item.id)
+        handleShow()
+    }
+
+    const handleEdit =async () =>{
+        if(book == "" || author == "" || poster == "" ) {
+            alert("fill empty fields")
+        }else{
+            dispatch(deleteBook(book))
+            dispatch(addBook(book))
+            setAuthor("")
+            setName("")
+            setPoster("")
+        }
+        handleClose()
+    }
+
   return (
     <>
     <div className="container">
@@ -52,7 +69,7 @@ function View() {
                                     -{item?.author}
                                 </Card.Text>
                                 <div className='d-flex justify-content-between'>
-                                    <Button variant="primary" onClick={handleShow}>Edit</Button>
+                                    <Button variant="primary" onClick={()=>handleEditStart(item)}>Edit</Button>
                                     <Button variant="danger" onClick={()=>handleDelete(item)}><i className="fa-solid fa-trash"></i></Button>
                                 </div>
                             </Card.Body>
@@ -79,7 +96,7 @@ function View() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleEdit}>
             Save Book
           </Button>
         </Modal.Footer>
