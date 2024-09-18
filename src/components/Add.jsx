@@ -1,4 +1,3 @@
-import { MDBInput } from 'mdb-react-ui-kit';
 import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
@@ -24,8 +23,10 @@ function Add() {
         if(book == "" || author == "" || poster == "" ) {
             alert("fill empty fields")
         }else{
-            console.log(book);
             dispatch(addBook(book))
+            setAuthor("")
+            setName("")
+            setPoster("")
         }
         handleClose()
     }

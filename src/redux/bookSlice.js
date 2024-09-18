@@ -9,7 +9,8 @@ const bookSlice = createSlice({
             state.push(action.payload)
         },
         deleteBook:(state,action)=>{
-            return state.filter(item=>item.name!=action.payload)
+            const index = state.indexOf(action.payload)
+            state.splice(index,1)
         }
     }
 })
